@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head th:replace="~{fragments :: myHead(title='Task')}">
+</head>
+<body>
+<main layout:fragment="content" class="container">
+    <div th:if="${task}" class="task-card card shadow-sm">
+        <div class="card-body">
+            <h1 class="card-title">Task Details</h1>
+            <p class="card-text"><strong>Title:</strong> <span th:text="${task.title}"></span></p>
+            <p class="card-text"><strong>Description:</strong> <span th:text="${task.description}"></span></p>
+            <p class="card-text"><strong>Due to:</strong> <span th:text="${task.dueDate}"></span></p>
+            <p class="card-text"><strong>Priority:</strong> <span th:text="${task.priorityName}"></span></p>
+            <p class="card-text"><strong>Status:</strong> <span th:text="${task.statusName}"></span></p>
+            <p class="card-text">
+                <strong>Tags:</strong>
+                <span th:if="${#lists.isEmpty(task.tags)}">None</span>
+                <span th:each="tag : ${task.tags}">
+                <span class="badge bg-secondary" th:text="${tag}"></span>
+                </span>
+            </p>
+        </div>
+
+        <div th:if="${user}" class="card-footer">
+            <h2 class="h4">Assigned User</h2>
+            <p class="card-text"><strong>Username:</strong> <span th:text="${user.username}"></span></p>
+            <p class="card-text"><strong>Role:</strong> <span th:text="${user.role}"></span></p>
+        </div>
+
+        <div th:if="${newComment}" class="mt-4">
+            <h2 class="h4 ps-3">Add a Comment</h2>
+            <form th:action="@{/tasks/{id}/newComment(id=${task.id})}" method="post" th:object="${newComment}">
+                <div class="mb-3 ps-3">
+                    <label for="content" class="form-label">Add your comment</label>
+                    <textarea id="content" th:field="*{content}" class="form-control" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary myBtn">Post</button>
+            </form>
+        </div>
+
+        <div th:if="${comments}" class="mt-4">
+            <h2 class="h4 ps-3">Comments</h2>
+            <div th:each="comment : ${comments}" class="comment-card card shadow-sm">
+                <div class="card-body">
+                    <p class="card-text"><strong>User:</strong> <span th:text="${comment.username}"></span></p>
+                    <p class="card-text"><strong>Text:</strong> <span th:text="${comment.content}"></span></p>
+                    <p class="card-text"><strong>Time:</strong> <span th:text="${comment.time}"></span></p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:unless="${task}" class="text-center my-5">
+        <h1 class="display-4">No task found</h1>
+    </div>
+    <div class="text-center mt-4">
+        <a th:href="@{/}" class="btn btn-primary">Return</a>
+    </div>
+</main>
+</body>
+</html>

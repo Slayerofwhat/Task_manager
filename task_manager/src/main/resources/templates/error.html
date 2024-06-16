@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: myHead(title='Error')}">
+</head>
+<body>
+<div class="container error-container">
+    <div class="card bg-danger text-light error-card">
+        <div class="card-body">
+            <h1 class="card-title">Error</h1>
+            <p class="card-text">An error occurred while processing your request.</p>
+            <a th:href="@{/}" class="btn btn-secondary">Return</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
