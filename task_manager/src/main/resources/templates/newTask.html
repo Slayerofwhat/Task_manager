@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: myHead(title='New Task')}">
+</head>
+<body>
+<main class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h1 class="card-title">Create New Task</h1>
+                    <form action="#" th:action="@{/tasks/newTask}" method="post" th:object="${newTask}">
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Title</label>
+                            <input id="title" th:field="*{title}" type="text" class="form-control" required>
+                            <p th:errors="*{title}" class="error"></p>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea id="description" th:field="*{description}" class="form-control" required></textarea>
+                            <p th:errors="*{description}" class="error"></p>
+                        </div>
+                        <div class="mb-3">
+                            <label for="dueDate" class="form-label">Due to</label>
+                            <input id="dueDate" th:field="*{dueDate}" type="date" class="form-control" required>
+                            <p th:errors="*{dueDate}" class="error"></p>
+                        </div>
+                        <div class="mb-3">
+                            <label for="priority" class="form-label">Priority</label>
+                            <select id="priority" th:field="*{priorityId}" class="form-select" required>
+                                <option th:each="priority : ${priorities}" th:value="${priority.id}" th:text="${priority.name}"></option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="tags" class="form-label">Tags</label>
+                            <select id="tags" th:field="*{tagsIdList}" class="form-select" multiple required>
+                                <option th:each="tag : ${tags}" th:value="${tag.id}" th:text="${tag.name}"></option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Create</button>
+                        <a th:href="@{/}" class="btn btn-primary">Return</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>
